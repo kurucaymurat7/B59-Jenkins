@@ -5,7 +5,7 @@ pipeline {
         stage ('Compile') {
             steps{
                 withMaven (maven: 'maven_3_8_6') {
-                    sh 'mvn clean compile'
+                    sh 'mvn clean -Dtest: SmokeRunner'
                 }
             }
         }
@@ -13,18 +13,9 @@ pipeline {
         stage ('Testing Stage') {
             steps {
                withMaven (maven: 'maven_3_8_6') {
-                  sh 'mvn test -Dtest=SmokeRunner'
+                  sh 'mvn test -Dtest=CucumberRunner'
                   }
             }
         }
-
-        stage ('Deployment Stage') {
-            steps {
-               withMaven (maven: 'maven_3_8_6') {
-                  sh 'mvn deploy'
-                  }
-            }
-        }
-
     }
 }
